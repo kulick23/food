@@ -1,5 +1,7 @@
 {
   "name": "home_react_project",
+  "author": "Danila Kulinkovich",
+  "description": "My personal react app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
