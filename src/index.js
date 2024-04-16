@@ -1,15 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './styles/index.css';
-import App from './App';
-import Itemlist from "./components/Itemlist/itemlist";
+import { renderEntireTree } from './render';
+import state from './redux/State';
 
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-      <Itemlist />
-  </React.StrictMode>
-);
-
+renderEntireTree(state);
