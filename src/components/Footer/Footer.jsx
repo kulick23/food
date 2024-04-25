@@ -20,10 +20,10 @@ const Footer = () => {
         {
             title: 'TEMPLATE',
             links: [
-                { text: 'Style Guide', href: '*' },
-                { text: 'Changelog', href: '*' },
-                { text: 'Licence', href: '*' },
-                { text: 'Webflow University', href: '*' }
+                { text: 'Style Guide', href: 'https://www.google.com/' },
+                { text: 'Changelog', href: 'https://www.google.com/' },
+                { text: 'Licence', href: 'https://www.google.com/' },
+                { text: 'Webflow University', href: 'https://www.google.com/' }
             ],
             className: 'template'
         },

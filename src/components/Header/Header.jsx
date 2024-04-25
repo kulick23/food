@@ -2,7 +2,7 @@ import React from 'react';
 import './Header.css'
 import Logo from '../../images/Logo.svg'
 import Cart from '../../images/Cart.svg'
-const Header = () => {
+const Header = (props) => {
     return (
     <header className='header'>
         <img className='header__logo' src={Logo}/>
@@ -15,7 +15,7 @@ const Header = () => {
         </div>
         <button className='header__button'>
             <img src={Cart}/>
-            <div className='header__button-counter'>0</div>
+            <div className='header__button-counter'>{props.getTotalItems()}</div>
         </button>
         </div>
     </header>
