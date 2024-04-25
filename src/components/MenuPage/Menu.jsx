@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Menu.css';
 import MenuElement from './Menu_Element/Menu_Element';
+import { observer } from "mobx-react-lite";
 
-const Menu = (props) => {
+const Menu = observer((props) => {
     const [showPhoneNumber, setShowPhoneNumber] = useState(false);
-    const [visibleBurgers, setVisibleBurgers] = useState(6);
+    const [visible, setVisible] = useState(6);
+    const [activeCategory, setActiveCategory] = useState("Dinner");
+
+    useEffect(() => {
+        props.DataStore.fetchData();
+    }, [props.DataStore]);
 
     const handleSeeMore = () => {
-        setVisibleBurgers(prevVisibleBurgers => prevVisibleBurgers + 6);
+        setVisible(prevVisible => prevVisible + 6);
     };
 
     const handlePhoneHover = () => {
@@ -18,20 +24,29 @@ const Menu = (props) => {
         setShowPhoneNumber(false);
     };
 
-    const dinnerBurgers = props.state.burgers.filter(burger => burger.category === 'Dinner');
+    const handleCategoryClick = (category) => {
+        setActiveCategory(category);
+        setVisible(6);
+    };
 
-    const Burgers = dinnerBurgers
-        .slice(0, visibleBurgers)
-        .map((burger, index) => (
+    const filteredItems = activeCategory ? props.DataStore.filterByCategory(activeCategory) : props.DataStore.data;
+
+    const MenuItems = filteredItems
+        .slice(0, visible)
+        .map((item) => (
             <MenuElement
-                key={index}
-                name={burger.name}
-                desc={burger.desc}
-                price={burger.price}
-                img={burger.img}
-                updateTotalItems={props.updateTotalItems}
+                key={item.id}
+                name={item.name}
+                desc={item.desc}
+                price={item.price}
+                img={item.img}
+                counter={props.counter}
             />
         ));
+
+    const getCategoryButtonClass = (category) => {
+        return activeCategory === category ? '' : 'menu__buttons--button';
+    };
 
     return (
         <div className='menu'>
@@ -48,12 +63,12 @@ const Menu = (props) => {
                 <br /> to place a pickup order. Fast and fresh food.
             </p>
             <div className='menu__buttons'>
-                <button className='menu__buttons--button'>Desert</button>
-                <button>Dinner</button>
-                <button className='menu__buttons--button'>Breakfast</button>
+                <button className={getCategoryButtonClass('Dessert')} onClick={() => handleCategoryClick('Dessert')}>Dessert</button>
+                <button className={getCategoryButtonClass('Dinner')} onClick={() => handleCategoryClick('Dinner')}>Dinner</button>
+                <button className={getCategoryButtonClass('Breakfast')} onClick={() => handleCategoryClick('Breakfast')}>Breakfast</button>
             </div>
-            <div className='menu__elements'>{Burgers}</div>
-            {dinnerBurgers.length > visibleBurgers && (
+            <div className='menu__elements'>{MenuItems}</div>
+            {filteredItems.length > visible && (
                 <button className='menu__button' onClick={handleSeeMore}>
                     See more
                 </button>
@@ -65,6 +80,8 @@ const Menu = (props) => {
             )}
         </div>
     );
-};
+});
 
 export default Menu;
+
+

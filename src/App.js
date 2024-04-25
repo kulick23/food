@@ -6,9 +6,9 @@ import Footer from "./components/Footer/Footer";
 const App = (props) => {
     return (
         <div className='app-wrapper'>
-            <Header getTotalItems = {props.getTotalItems} />
+            <Header counter = {props.counter} />
             <div className='app-wrapper-content'>
-                <Menu updateTotalItems = {props.updateTotalItems} state = {props.state.MenuPage} />
+                <Menu counter = {props.counter} DataStore = {props.DataStore} />
             </div>
             <Footer />
         </div>

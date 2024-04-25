@@ -5,11 +5,6 @@ const MenuElement = (props) => {
     const [quantity, setQuantity] = useState(0);
     const [expanded, setExpanded] = useState(false);
 
-
-    const increaseQuantity = () => {
-        props.updateTotalItems(quantity);
-    };
-
     const handleInputChange = (event) => {
         const value = parseInt(event.target.value);
         setQuantity(isNaN(value) ? 0 : value);
@@ -39,7 +34,7 @@ const MenuElement = (props) => {
                 </p>
                 <div className='menuelement__buttons'>
                     <input type="number" value={quantity} onChange={handleInputChange} />
-                    <button onClick={increaseQuantity}>Add to cart</button>
+                    <button onClick={() => props.counter.UpdateCounter(quantity)}>Add to cart</button>
                 </div>
             </div>
         </div>
