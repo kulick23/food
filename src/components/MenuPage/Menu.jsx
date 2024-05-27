@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Menu.css';
 import MenuElement from './Menu_Element/Menu_Element';
 import { observer } from "mobx-react-lite";
+import DataStoreContext from "../../store/menu_context";
 
-const Menu = observer((props) => {
+const Menu = observer(({ counter }) => {
+    const DataStore = useContext(DataStoreContext);
     const [showPhoneNumber, setShowPhoneNumber] = useState(false);
     const [visible, setVisible] = useState(6);
     const [activeCategory, setActiveCategory] = useState("Dinner");
 
     useEffect(() => {
-        props.DataStore.fetchData();
-    }, [props.DataStore]);
+        DataStore.fetchData();
+    }, [DataStore]);
 
     const handleSeeMore = () => {
         setVisible(prevVisible => prevVisible + 6);
@@ -29,7 +31,9 @@ const Menu = observer((props) => {
         setVisible(6);
     };
 
-    const filteredItems = activeCategory ? props.DataStore.filterByCategory(activeCategory) : props.DataStore.data;
+    const filteredItems = activeCategory
+        ? DataStore.data.filter(item => item.category === activeCategory)
+        : DataStore.data;
 
     const MenuItems = filteredItems
         .slice(0, visible)
@@ -40,7 +44,7 @@ const Menu = observer((props) => {
                 desc={item.desc}
                 price={item.price}
                 img={item.img}
-                counter={props.counter}
+                counter={counter}
             />
         ));
 
@@ -83,5 +87,3 @@ const Menu = observer((props) => {
 });
 
 export default Menu;
-
-

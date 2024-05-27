@@ -32,3 +32,17 @@ button{
   outline: none;
   background-color: #35B8BE;
 }
+h1 {
+  font-size: 50px;
+  font-weight: 400;
+  color: #35b8be;
+}
+p{
+  color: #546285;
+}
+
+.app-wrapper-content{
+  padding-right: 10%;
+  padding-left: 10%;
+  padding-top: 70px;
+}

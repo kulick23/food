@@ -36,7 +36,6 @@ const Footer = () => {
         }
     ];
 
-    // Массив элементов социальных сетей
     const socialLinks = [
         { icon: Inst, alt: 'Inst' },
         { icon: Twit, alt: 'Twit' },

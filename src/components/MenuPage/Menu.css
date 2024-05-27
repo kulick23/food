@@ -4,9 +4,6 @@
     justify-content: center;
     display: flex;
     flex-direction: column;
-    padding-right: 10%;
-    padding-left: 10%;
-    padding-top: 70px;
 }
 
 .menu::before {
@@ -19,16 +16,6 @@
     border-left: 50vw solid transparent;
     border-bottom: 50px solid white;
     transform: rotate(180deg);
-}
-
-.menu h1 {
-    font-size: 50px;
-    font-weight: 400;
-    color: #35b8be;
-}
-
-.menu p {
-    color: #546285;
 }
 
 .menu span {

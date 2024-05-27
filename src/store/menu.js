@@ -42,12 +42,6 @@ class DataStore {
     get filteredData() {
         return this.data.slice();
     }
-
-    filterByCategory(category) {
-        return this.data.filter(item => item.category === category);
-    }
 }
 
 export default new DataStore();
-
-
