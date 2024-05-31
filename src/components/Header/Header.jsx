@@ -25,7 +25,12 @@ const Header = observer((props) => {
                         Menu
                     </NavLink>
                     <a href='*' className='header__link'>Company</a>
-                    <a href='*' className='header__link'>Login</a>
+                    <NavLink
+                        to="/login"
+                        className={({ isActive }) => isActive ? 'header__link header__link--active' : 'header__link'}
+                    >
+                        Login
+                    </NavLink>
                 </div>
                 <button className='header__button'>
                     <img src={Cart} alt="Cart" />

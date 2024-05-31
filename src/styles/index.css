@@ -1,3 +1,8 @@
+.app-wrapper-content{
+  padding-right: 10%;
+  padding-left: 10%;
+  padding-top: 70px;
+}
 html{
   background-color: #F5FBFC;
   font-family: Inter;
@@ -41,8 +46,10 @@ p{
   color: #546285;
 }
 
-.app-wrapper-content{
-  padding-right: 10%;
-  padding-left: 10%;
-  padding-top: 70px;
+input{
+  padding: 8px 10px;
+  border: 1px solid #DDDDDD;
+  background-color: #FAFAFA;
+  border-radius: 5px;
 }
+
