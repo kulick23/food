@@ -1,7 +1,17 @@
 import { observable, action, makeObservable, computed } from "mobx";
 
+interface Meal {
+    id: string;
+    name: string;
+    desc: string;
+    price: number;
+    img: string;
+    area: string;
+    category: string;
+}
+
 class DataStore {
-    data = [];
+    data: Meal[] = [];
 
     constructor() {
         makeObservable(this, {
@@ -23,7 +33,7 @@ class DataStore {
         try {
             const response = await fetch("https://65de35f3dccfcd562f5691bb.mockapi.io/api/v1/meals");
             const jsonData = await response.json();
-            const formattedData = jsonData.map(item => ({
+            const formattedData: Meal[] = jsonData.map((item: any) => ({
                 id: item.id,
                 name: item.meal,
                 desc: item.instructions,
@@ -39,9 +49,10 @@ class DataStore {
         }
     }
 
-    get filteredData() {
+    get filteredData(): Meal[] {
         return this.data.slice();
     }
 }
 
 export default new DataStore();
+

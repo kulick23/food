@@ -4,14 +4,23 @@ import MenuElement from './Menu_Element/Menu_Element';
 import { observer } from "mobx-react-lite";
 import DataStoreContext from "../../store/menu_context";
 
-const Menu = observer(({ counter }) => {
-    const DataStore = useContext(DataStoreContext);
+interface MenuProps {
+    counter: {
+        UpdateCounter: (quantity: number) => void;
+    };
+}
+
+const Menu: React.FC<MenuProps> = observer(({ counter }) => {
+    const context = useContext(DataStoreContext);
+    const DataStore = context?.dataStore;
     const [showPhoneNumber, setShowPhoneNumber] = useState(false);
     const [visible, setVisible] = useState(6);
     const [activeCategory, setActiveCategory] = useState("Dinner");
 
     useEffect(() => {
-        DataStore.fetchData();
+        if (DataStore) {
+            DataStore.fetchData();
+        }
     }, [DataStore]);
 
     const handleSeeMore = () => {
@@ -26,14 +35,14 @@ const Menu = observer(({ counter }) => {
         setShowPhoneNumber(false);
     };
 
-    const handleCategoryClick = (category) => {
+    const handleCategoryClick = (category: string) => {
         setActiveCategory(category);
         setVisible(6);
     };
 
     const filteredItems = activeCategory
-        ? DataStore.data.filter(item => item.category === activeCategory)
-        : DataStore.data;
+        ? DataStore?.data.filter((item) => item.category === activeCategory) || []
+        : DataStore?.data || [];
 
     const MenuItems = filteredItems
         .slice(0, visible)
@@ -48,7 +57,7 @@ const Menu = observer(({ counter }) => {
             />
         ));
 
-    const getCategoryButtonClass = (category) => {
+    const getCategoryButtonClass = (category: string) => {
         return activeCategory === category ? '' : 'menu__buttons--button';
     };
 
@@ -87,3 +96,4 @@ const Menu = observer(({ counter }) => {
 });
 
 export default Menu;
+

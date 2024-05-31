@@ -1,9 +1,10 @@
 import { makeAutoObservable, autorun } from "mobx";
 
 class Counter {
-    count = 0;
+    count: number;
 
     constructor() {
+        this.count = 0;
         makeAutoObservable(this);
 
         autorun(() => {
@@ -11,10 +12,9 @@ class Counter {
         });
     }
 
-    UpdateCounter(NewCount) {
+    UpdateCounter(NewCount: number) {
         this.count += NewCount;
     }
 }
 
 export default new Counter();
-

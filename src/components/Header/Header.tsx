@@ -5,7 +5,15 @@ import Logo from '../../images/Logo.svg';
 import Cart from '../../images/Cart.svg';
 import { observer } from 'mobx-react-lite';
 
-const Header = observer((props) => {
+interface CounterProps {
+    count: number;
+}
+
+interface HeaderProps {
+    counter: CounterProps;
+}
+
+const Header: React.FC<HeaderProps> = observer(({ counter }) => {
     return (
         <header className='header'>
             <img className='header__logo' src={Logo} alt="Logo" />
@@ -34,7 +42,7 @@ const Header = observer((props) => {
                 </div>
                 <button className='header__button'>
                     <img src={Cart} alt="Cart" />
-                    <div className='header__button-counter'>{props.counter.count}</div>
+                    <div className='header__button-counter'>{counter.count}</div>
                 </button>
             </div>
         </header>
@@ -42,4 +50,3 @@ const Header = observer((props) => {
 });
 
 export default Header;
-

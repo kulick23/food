@@ -1,20 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import './Menu_Element.css';
 
-const MenuElement = (props) => {
-    const [quantity, setQuantity] = useState(0);
-    const [expanded, setExpanded] = useState(false);
+interface MenuElementProps {
+    img: string;
+    name: string;
+    price: number;
+    desc: string;
+    counter: {
+        UpdateCounter: (quantity: number) => void;
+    };
+}
 
-    const handleInputChange = (event) => {
+const MenuElement: React.FC<MenuElementProps> = (props) => {
+    const [quantity, setQuantity] = useState<number>(0);
+    const [expanded, setExpanded] = useState<boolean>(false);
+
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(event.target.value);
         setQuantity(isNaN(value) ? 0 : value);
     };
 
-
     const toggleDescription = () => {
         setExpanded(!expanded);
     };
-
 
     return (
         <div className='menuelement'>
@@ -22,7 +30,7 @@ const MenuElement = (props) => {
             <div className='menuelement__textblock'>
                 <div className='menuelement__text'>
                     <h3>{props.name}</h3>
-                    <p> &#36; {Number(props.price).toFixed(2)} USD</p>
+                    <p> &#36; {props.price.toFixed(2)} USD</p>
                 </div>
                 <p>
                     {expanded ? props.desc : `${props.desc.split(' ').slice(0, 20).join(' ')}${props.desc.split(' ').length > 20 ? '...' : ''}`}
@@ -42,8 +50,6 @@ const MenuElement = (props) => {
 };
 
 export default MenuElement;
-
-
 
 
 

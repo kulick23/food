@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import './Login.css';
-import { auth } from '../../firebase.js';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { auth } from '../../firebase';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthProvider';
 
-const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
-    const [isRegistering, setIsRegistering] = useState(false);
+const Login: React.FC = () => {
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [error, setError] = useState<string | null>(null);
+    const [isRegistering, setIsRegistering] = useState<boolean>(false);
     const navigate = useNavigate();
     const { currentUser } = useAuth();
 
@@ -17,7 +17,7 @@ const Login = () => {
         try {
             await signInWithEmailAndPassword(auth, email, password);
             navigate('/');
-        } catch (error) {
+        } catch (error: any) {
             setError(error.message);
         }
     };
@@ -26,7 +26,7 @@ const Login = () => {
         try {
             await createUserWithEmailAndPassword(auth, email, password);
             navigate('/');
-        } catch (error) {
+        } catch (error: any) {
             setError(error.message);
         }
     };
@@ -35,7 +35,7 @@ const Login = () => {
         try {
             await signOut(auth);
             navigate('/login');
-        } catch (error) {
+        } catch (error: any) {
             setError(error.message);
         }
     };
@@ -90,5 +90,3 @@ const Login = () => {
 }
 
 export default Login;
-
-
