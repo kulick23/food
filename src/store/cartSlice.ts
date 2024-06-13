@@ -5,6 +5,7 @@ interface CartItem {
     name: string;
     quantity: number;
     price: number;
+    img: string;
 }
 
 interface CartState {
@@ -28,7 +29,7 @@ const cartSlice = createSlice({
             if (existingItem) {
                 existingItem.quantity += action.payload.quantity;
             } else {
-                state.items.push(action.payload);
+                state.items.push({ ...action.payload, quantity: action.payload.quantity });
             }
             state.totalQuantity = state.items.reduce((total, item) => total + item.quantity, 0);
             state.totalAmount = state.items.reduce((total, item) => total + (item.quantity * item.price), 0);

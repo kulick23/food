@@ -4,9 +4,9 @@ import MenuElement from './Menu_Element/Menu_Element';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { addToCart } from '../../store/cartSlice';
+import { useAuth } from '../AuthProvider';
 
 const categories = ['Dessert', 'Dinner', 'Breakfast'];
-
 
 const Menu: React.FC = () => {
     const [showPhoneNumber, setShowPhoneNumber] = useState<boolean>(false);
@@ -14,7 +14,7 @@ const Menu: React.FC = () => {
     const [activeCategory, setActiveCategory] = useState<string>(categories[1]);
     const dispatch = useDispatch();
     const { items, loading, error } = useSelector((state: RootState) => state.menu);
-
+    const { isAuthenticated } = useAuth();
 
     const handleSeeMore = () => {
         setVisible(prevVisible => prevVisible + 6);
@@ -35,13 +35,16 @@ const Menu: React.FC = () => {
 
     const filteredItems = items.filter((item) => item.category === activeCategory);
 
-    const updateCart = (item: { id: string, name: string, quantity: number, price: number }) => {
+    const updateCart = (item: { id: string, name: string, quantity: number, price: number, img: string }) => {
+        if (!isAuthenticated()) {
+            alert('You must be logged in to add items to the cart.');
+            return;
+        }
         dispatch(addToCart(item));
     };
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error loading menu: {error}</p>;
-
 
     const MenuItems = filteredItems
         .slice(0, visible)
@@ -52,7 +55,7 @@ const Menu: React.FC = () => {
                 desc={item.desc}
                 price={item.price}
                 img={item.img}
-                updateCart={updateCart}
+                updateCart={() => updateCart({ ...item, quantity: 1 })}
             />
         ));
 
@@ -80,7 +83,6 @@ const Menu: React.FC = () => {
                         {category}
                     </button>
                 ))}
-
             </div>
             <div className='menu__elements'>{MenuItems}</div>
             {filteredItems.length > visible && (
@@ -98,4 +100,5 @@ const Menu: React.FC = () => {
 };
 
 export default Menu;
+
 

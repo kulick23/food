@@ -6,8 +6,6 @@ import Cart from '../../images/Cart.svg';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 
-
-
 const Header: React.FC = () => {
     const cartItems = useSelector((state: RootState) => state.cart.totalQuantity);
     return (
@@ -36,10 +34,12 @@ const Header: React.FC = () => {
                         Login
                     </NavLink>
                 </div>
-                <button className='header__button'>
-                    <img src={Cart} alt="Cart" />
-                    <div className='header__button-counter'>{cartItems}</div>
-                </button>
+                <NavLink to="/cart">
+                    <button className='header__button'>
+                        <img src={Cart} alt="Cart" />
+                        <div className='header__button-counter'>{cartItems}</div>
+                    </button>
+                </NavLink>
             </div>
         </header>
     );
