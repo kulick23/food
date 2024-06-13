@@ -1,0 +1,50 @@
+.home{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+}
+.home::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 115%;
+    background: #F5FBFC; /* Цвет светло-серого фона */
+    clip-path: polygon(100% 0, -3% 0, 12% 85%, 100% 100%, 100% 100%);/* Определение формы */
+
+    z-index: -1; /* Размещение позади основного контента */
+}
+.home::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 115%;
+    background: white; /* Цвет красного фона */
+    z-index: -2; /* Размещение позади псевдоэлемента ::before */
+}
+.home__picture{
+    height: 80%;
+}
+.home__desc > *:not(:last-child) {
+    margin-bottom: 30px;
+}
+.home__desc h1{
+    color: black;
+}
+.home__color {
+    color: #35b8be;
+}
+.home__desc button {
+    padding: 15px 25px;
+}
+.home__desc--trustpilot p {
+    margin: 3px;
+}
+.star{
+    color: #00B67A;
+    font-size: 25px;
+    margin-right: 1px;
+}

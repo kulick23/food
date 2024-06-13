@@ -1,12 +1,23 @@
 import React from 'react';
-import './Footer.css'
-import Logo from '../../images/Logo.svg'
-import Inst from '../../images/inst.svg'
-import Twit from '../../images/twit.svg'
-import YouTube from '../../images/youtube.svg'
+import './Footer.css';
+import Logo from '../../images/Logo.svg';
+import Inst from '../../images/inst.svg';
+import Twit from '../../images/twit.svg';
+import YouTube from '../../images/youtube.svg';
 
-const Footer = () => {
-    const sections = [
+interface Section {
+    title: string;
+    links: { text: string, href: string }[];
+    className: string;
+}
+
+interface SocialLink {
+    icon: string;
+    alt: string;
+}
+
+const Footer: React.FC = () => {
+    const sections: Section[] = [
         {
             title: 'COMPANY',
             links: [
@@ -36,10 +47,9 @@ const Footer = () => {
         }
     ];
 
-    // Массив элементов социальных сетей
-    const socialLinks = [
-        { icon: Inst, alt: 'Inst' },
-        { icon: Twit, alt: 'Twit' },
+    const socialLinks: SocialLink[] = [
+        { icon: Inst, alt: 'Instagram' },
+        { icon: Twit, alt: 'Twitter' },
         { icon: YouTube, alt: 'YouTube' }
     ];
 
@@ -47,31 +57,32 @@ const Footer = () => {
         <footer className='footer'>
             <div className='footer__linksblock'>
                 <div className='logoblock'>
-                    <img className='footer__logo' src={Logo} alt="Logo"/>
-                    <p>Takeaway & Delivery template <br /> for small - medium businesses. </p>
+                    <img className='footer__logo' src={Logo} alt="Logo" />
+                    <p>Takeaway & Delivery template <br /> for small - medium businesses.</p>
                 </div>
                 {sections.map((section, index) => (
                     <div className={section.className} key={index}>
                         <b>{section.title}</b>
-                        {section.links.map((link, index) => (
-                            <a href={link.href} key={index}>{link.text}</a>
+                        {section.links.map((link, linkIndex) => (
+                            <a href={link.href} key={linkIndex}>{link.text}</a>
                         ))}
                     </div>
                 ))}
             </div>
-            <hr></hr>
+            <hr />
             <div className='footer__socialblock'>
                 <p>Built by <a href='*'>Flowbase</a> · Powered by <a href='*'>Webflow</a></p>
                 <div className='footer__social'>
                     {socialLinks.map((social, index) => (
                         <div className='footer__social--logo' key={index}>
-                            <img src={social.icon} alt={social.alt}/>
+                            <img src={social.icon} alt={social.alt} />
                         </div>
                     ))}
                 </div>
             </div>
         </footer>
-    )
+    );
 }
 
 export default Footer;
+
