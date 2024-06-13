@@ -3,17 +3,13 @@ import './Header.css';
 import { NavLink } from 'react-router-dom';
 import Logo from '../../images/Logo.svg';
 import Cart from '../../images/Cart.svg';
-import { observer } from 'mobx-react-lite';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
-interface CounterProps {
-    count: number;
-}
 
-interface HeaderProps {
-    counter: CounterProps;
-}
 
-const Header: React.FC<HeaderProps> = observer(({ counter }) => {
+const Header: React.FC = () => {
+    const cartItems = useSelector((state: RootState) => state.cart.totalQuantity);
     return (
         <header className='header'>
             <img className='header__logo' src={Logo} alt="Logo" />
@@ -42,11 +38,11 @@ const Header: React.FC<HeaderProps> = observer(({ counter }) => {
                 </div>
                 <button className='header__button'>
                     <img src={Cart} alt="Cart" />
-                    <div className='header__button-counter'>{counter.count}</div>
+                    <div className='header__button-counter'>{cartItems}</div>
                 </button>
             </div>
         </header>
     );
-});
+};
 
 export default Header;

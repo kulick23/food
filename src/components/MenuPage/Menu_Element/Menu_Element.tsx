@@ -2,18 +2,26 @@ import React, { useState, ChangeEvent } from 'react';
 import './Menu_Element.css';
 
 interface MenuElementProps {
+    key: string;
     img: string;
     name: string;
     price: number;
     desc: string;
-    counter: {
-        UpdateCounter: (quantity: number) => void;
-    };
+    updateCart: (item: { id: string, name: string, quantity: number, price: number }) => void;
 }
 
 const MenuElement: React.FC<MenuElementProps> = (props) => {
     const [quantity, setQuantity] = useState<number>(0);
     const [expanded, setExpanded] = useState<boolean>(false);
+
+    const increaseQuantity = (): void => {
+        props.updateCart({
+            id: props.key,
+            name: props.name,
+            quantity,
+            price: props.price
+        });
+    };
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(event.target.value);
@@ -41,8 +49,14 @@ const MenuElement: React.FC<MenuElementProps> = (props) => {
                     )}
                 </p>
                 <div className='menuelement__buttons'>
-                    <input type="number" value={quantity} onChange={handleInputChange} />
-                    <button onClick={() => props.counter.UpdateCounter(quantity)}>Add to cart</button>
+                    <input
+                        type="number"
+                        value={quantity === 0 ? '' : quantity}
+                        onChange={handleInputChange}
+                        min="0"
+                    />
+
+                    <button onClick={increaseQuantity}>Add to cart</button>
                 </div>
             </div>
         </div>
@@ -50,6 +64,3 @@ const MenuElement: React.FC<MenuElementProps> = (props) => {
 };
 
 export default MenuElement;
-
-
-
