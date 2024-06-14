@@ -10,10 +10,9 @@
     left: 0;
     width: 100%;
     height: 115%;
-    background: #F5FBFC; /* Цвет светло-серого фона */
-    clip-path: polygon(100% 0, -3% 0, 12% 85%, 100% 100%, 100% 100%);/* Определение формы */
-
-    z-index: -1; /* Размещение позади основного контента */
+    background: var(--background-color);
+    clip-path: polygon(100% 0, -3% 0, 12% 85%, 100% 100%, 100% 100%);
+    z-index: -1;
 }
 .home::after {
     content: '';
@@ -22,8 +21,8 @@
     left: 0;
     width: 100%;
     height: 115%;
-    background: white; /* Цвет красного фона */
-    z-index: -2; /* Размещение позади псевдоэлемента ::before */
+    background: var(--background-second);
+    z-index: -2;
 }
 .home__picture{
     height: 80%;

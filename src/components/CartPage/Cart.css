@@ -6,7 +6,7 @@
     width: 0;
     height: 0;
     border-left: 50vw solid transparent;
-    border-bottom: 50px solid white;
+    border-bottom: 50px solid var(--background-second);
     transform: rotate(180deg);
 }
 .cart-page h1{

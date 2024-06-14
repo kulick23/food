@@ -11,13 +11,19 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from './components/AuthProvider';
 import { useAppDispatch } from './store/hooks';
 import { fetchMenuItems } from './store/menuSlice';
+import { useTheme} from "./ThemeContext";
 
 const App: React.FC = () => {
     const dispatch = useAppDispatch();
+    const { theme } = useTheme();
 
     useEffect(() => {
         dispatch(fetchMenuItems());
     }, [dispatch]);
+
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme);
+    }, [theme]);
 
     return (
         <div className='app-wrapper'>

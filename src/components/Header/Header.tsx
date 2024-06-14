@@ -5,9 +5,12 @@ import Logo from '../../images/Logo.svg';
 import Cart from '../../images/Cart.svg';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
+import { useTheme} from "../../ThemeContext";
 
 const Header: React.FC = () => {
     const cartItems = useSelector((state: RootState) => state.cart.totalQuantity);
+    const { theme, toggleTheme } = useTheme();
+
     return (
         <header className='header'>
             <img className='header__logo' src={Logo} alt="Logo" />
@@ -40,9 +43,13 @@ const Header: React.FC = () => {
                         <div className='header__button-counter'>{cartItems}</div>
                     </button>
                 </NavLink>
+                <button onClick={toggleTheme}>
+                    {theme === 'light' ? 'Dark' : 'Light'} Mode
+                </button>
             </div>
         </header>
     );
 };
 
 export default Header;
+
