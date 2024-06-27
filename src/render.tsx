@@ -2,8 +2,11 @@ import React from 'react';
 import './styles/index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
-import counter from "./store/counter";
 import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
+import store from './store/store';
+import { ThemeProvider } from './ThemeContext';
+
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -13,10 +16,14 @@ if (!rootElement) {
 export const renderEntireTree = () => {
     createRoot(rootElement).render(
         <React.StrictMode>
+            <Provider store={store}>
+                <ThemeProvider>
             <BrowserRouter>
-                <App counter={counter} />
-    </BrowserRouter>
-    </React.StrictMode>
-);
+                <App  />
+            </BrowserRouter>
+                </ThemeProvider>
+            </Provider>
+        </React.StrictMode>
+    );
 };
 

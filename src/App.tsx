@@ -1,34 +1,44 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './styles/index.css';
 import { Route, Routes } from 'react-router-dom';
-import { DataStoreProvider } from "./store/menu_context";
 import Header from "./components/Header/Header";
 import Menu from "./components/MenuPage/Menu";
 import Home from "./components/HomePage/Home";
 import Login from "./components/LoginPage/Login";
 import Footer from "./components/Footer/Footer";
+import Cart from "./components/CartPage/Cart";
+import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from './components/AuthProvider';
+import { useAppDispatch } from './store/hooks';
+import { fetchMenuItems } from './store/menuSlice';
+import { useTheme} from "./ThemeContext";
 
-interface AppProps {
-    counter: {
-        count: number;
-        UpdateCounter: (NewCount: number) => void;
-    };
-}
+const App: React.FC = () => {
+    const dispatch = useAppDispatch();
+    const { theme } = useTheme();
 
-const App: React.FC<AppProps> = ({ counter }) => {
+    useEffect(() => {
+        dispatch(fetchMenuItems());
+    }, [dispatch]);
+
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme);
+    }, [theme]);
+
     return (
         <div className='app-wrapper'>
-            <Header counter={counter} />
+            <Header />
             <div className='app-wrapper-content'>
                 <AuthProvider>
-                    <DataStoreProvider>
-                        <Routes>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/menu" element={<Menu counter={counter} />} />
-                            <Route path="/login" element={<Login />} />
-                        </Routes>
-                    </DataStoreProvider>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/menu" element={<Menu />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route
+                            path="/cart"
+                            element={<ProtectedRoute element={<Cart />} />}
+                        />
+                    </Routes>
                 </AuthProvider>
             </div>
             <Footer />
@@ -37,6 +47,3 @@ const App: React.FC<AppProps> = ({ counter }) => {
 }
 
 export default App;
-
-
-

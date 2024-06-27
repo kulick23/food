@@ -3,17 +3,14 @@ import './Header.css';
 import { NavLink } from 'react-router-dom';
 import Logo from '../../images/Logo.svg';
 import Cart from '../../images/Cart.svg';
-import { observer } from 'mobx-react-lite';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { useTheme} from "../../ThemeContext";
 
-interface CounterProps {
-    count: number;
-}
+const Header: React.FC = () => {
+    const cartItems = useSelector((state: RootState) => state.cart.totalQuantity);
+    const { theme, toggleTheme } = useTheme();
 
-interface HeaderProps {
-    counter: CounterProps;
-}
-
-const Header: React.FC<HeaderProps> = observer(({ counter }) => {
     return (
         <header className='header'>
             <img className='header__logo' src={Logo} alt="Logo" />
@@ -40,13 +37,19 @@ const Header: React.FC<HeaderProps> = observer(({ counter }) => {
                         Login
                     </NavLink>
                 </div>
-                <button className='header__button'>
-                    <img src={Cart} alt="Cart" />
-                    <div className='header__button-counter'>{counter.count}</div>
+                <NavLink to="/cart">
+                    <button className='header__button'>
+                        <img src={Cart} alt="Cart" />
+                        <div className='header__button-counter'>{cartItems}</div>
+                    </button>
+                </NavLink>
+                <button onClick={toggleTheme}>
+                    {theme === 'light' ? 'Dark' : 'Light'} Mode
                 </button>
             </div>
         </header>
     );
-});
+};
 
 export default Header;
+

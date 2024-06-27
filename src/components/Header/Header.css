@@ -3,7 +3,7 @@
     height: 50px;
     padding: 20px 5% 20px 5%;
     align-items: center;
-    background-color: white;
+    background-color: var(--background-second);
 }
 .header__right{
     display: flex;

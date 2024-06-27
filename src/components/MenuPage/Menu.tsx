@@ -1,27 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import './Menu.css';
 import MenuElement from './Menu_Element/Menu_Element';
-import { observer } from "mobx-react-lite";
-import DataStoreContext from "../../store/menu_context";
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { addToCart } from '../../store/cartSlice';
+import { useAuth } from '../AuthProvider';
 
-interface MenuProps {
-    counter: {
-        UpdateCounter: (quantity: number) => void;
-    };
-}
+const categories = ['Dessert', 'Dinner', 'Breakfast'];
 
-const Menu: React.FC<MenuProps> = observer(({ counter }) => {
-    const context = useContext(DataStoreContext);
-    const DataStore = context?.dataStore;
-    const [showPhoneNumber, setShowPhoneNumber] = useState(false);
-    const [visible, setVisible] = useState(6);
-    const [activeCategory, setActiveCategory] = useState("Dinner");
-
-    useEffect(() => {
-        if (DataStore) {
-            DataStore.fetchData();
-        }
-    }, [DataStore]);
+const Menu: React.FC = () => {
+    const [showPhoneNumber, setShowPhoneNumber] = useState<boolean>(false);
+    const [visible, setVisible] = useState<number>(6);
+    const [activeCategory, setActiveCategory] = useState<string>(categories[1]);
+    const dispatch = useDispatch();
+    const { items, loading, error } = useSelector((state: RootState) => state.menu);
+    const { isAuthenticated } = useAuth();
 
     const handleSeeMore = () => {
         setVisible(prevVisible => prevVisible + 6);
@@ -40,9 +33,18 @@ const Menu: React.FC<MenuProps> = observer(({ counter }) => {
         setVisible(6);
     };
 
-    const filteredItems = activeCategory
-        ? DataStore?.data.filter((item) => item.category === activeCategory) || []
-        : DataStore?.data || [];
+    const filteredItems = items.filter((item) => item.category === activeCategory);
+
+    const updateCart = (item: { id: string, name: string, quantity: number, price: number, img: string }) => {
+        if (!isAuthenticated()) {
+            alert('You must be logged in to add items to the cart.');
+            return;
+        }
+        dispatch(addToCart(item));
+    };
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error loading menu: {error}</p>;
 
     const MenuItems = filteredItems
         .slice(0, visible)
@@ -53,13 +55,9 @@ const Menu: React.FC<MenuProps> = observer(({ counter }) => {
                 desc={item.desc}
                 price={item.price}
                 img={item.img}
-                counter={counter}
+                updateCart={() => updateCart({ ...item, quantity: 1 })}
             />
         ));
-
-    const getCategoryButtonClass = (category: string) => {
-        return activeCategory === category ? '' : 'menu__buttons--button';
-    };
 
     return (
         <div className='menu'>
@@ -76,9 +74,15 @@ const Menu: React.FC<MenuProps> = observer(({ counter }) => {
                 <br /> to place a pickup order. Fast and fresh food.
             </p>
             <div className='menu__buttons'>
-                <button className={getCategoryButtonClass('Dessert')} onClick={() => handleCategoryClick('Dessert')}>Dessert</button>
-                <button className={getCategoryButtonClass('Dinner')} onClick={() => handleCategoryClick('Dinner')}>Dinner</button>
-                <button className={getCategoryButtonClass('Breakfast')} onClick={() => handleCategoryClick('Breakfast')}>Breakfast</button>
+                {categories.map((category) => (
+                    <button
+                        key={category}
+                        className={activeCategory === category ? '' : 'menu__buttons--button'}
+                        onClick={() => handleCategoryClick(category)}
+                    >
+                        {category}
+                    </button>
+                ))}
             </div>
             <div className='menu__elements'>{MenuItems}</div>
             {filteredItems.length > visible && (
@@ -93,7 +97,8 @@ const Menu: React.FC<MenuProps> = observer(({ counter }) => {
             )}
         </div>
     );
-});
+};
 
 export default Menu;
+
 

@@ -1,10 +1,8 @@
 .menuelement{
-
-    background-color: #FFFFFF;
+    background-color: var(--background-second);
     display: flex;
     align-items: center;
     padding: 20px 15% 20px 20px;
-
 }
 .menuelement img{
     max-height: 120px;
@@ -17,13 +15,12 @@
     align-items: flex-start;
     text-align: left;
     margin-left: 30px;
-
 }
 .menuelement__textblock p{
     color: #546285;
 }
 .menuelement__textblock h3{
-font-weight: 450;
+    font-weight: 450;
 }
 .menuelement__text{
     width: 100%;
@@ -39,12 +36,8 @@ font-weight: 450;
     gap: 10px;
 }
 .menuelement__buttons input{
-    border-radius: 5px;
     padding-top: 2.5% ;
     padding-bottom: 2.5%;
     width: 15%;
-    border: 1px solid #DDDDDD;
-    background-color: #FAFAFA;
-    text-align: center;
 }
 

@@ -3,6 +3,7 @@ import { onAuthStateChanged, getAuth, User } from 'firebase/auth';
 
 interface AuthContextProps {
     currentUser: User | null;
+    isAuthenticated: () => boolean;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -33,13 +34,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return unsubscribe;
     }, []);
 
+    const isAuthenticated = () => !!currentUser;
+
     if (loading) {
         return <div>Loading...</div>;
     }
 
     return (
-        <AuthContext.Provider value={{ currentUser }}>
-    {children}
-    </AuthContext.Provider>
-);
+        <AuthContext.Provider value={{ currentUser, isAuthenticated }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
