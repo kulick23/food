@@ -6,6 +6,7 @@
   --background-second: #FFFFFF;
   --input-background: #FAFAFA;
   --input-border: #DDDDDD;
+  --transparent-button: black;
 }
 
 
@@ -17,6 +18,8 @@
   --background-second: #1F2023;
   --input-background: #383B40;
   --input-border: #444343;
+  --transparent-button: #35B8BE;
+
 
 }
 

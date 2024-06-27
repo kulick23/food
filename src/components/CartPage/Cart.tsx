@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
-import { clearCart } from '../../store/cartSlice';
+import { clearCart, updateCartItemQuantity, removeFromCart } from '../../store/cartSlice';
 import './Cart.css';
 
 const Cart: React.FC = () => {
@@ -14,9 +14,17 @@ const Cart: React.FC = () => {
         dispatch(clearCart());
     };
 
+    const handleQuantityChange = (id: string, quantity: number) => {
+        dispatch(updateCartItemQuantity({ id, quantity }));
+    };
+
+    const handleRemoveItem = (id: string) => {
+        dispatch(removeFromCart(id));
+    };
+
     return (
         <div className="cart-page">
-            <h1>Your Cart</h1>
+            <h1>Finish your order</h1>
             {cartItems.length === 0 ? (
                 <p>Your cart is empty.</p>
             ) : (
@@ -24,24 +32,44 @@ const Cart: React.FC = () => {
                     <ul className="cart-items">
                         {cartItems.map(item => (
                             <li key={item.id} className="cart-item">
-                                <div className="cart-item-image-container">
-                                    <img src={item.img} alt={item.name} className="cart-item-image" />
-                                </div>
-                                <div className="cart-item-details">
-                                    <h3>{item.name}</h3>
-                                    <p>Quantity: {item.quantity}</p>
-                                    <p>Price: ${item.price}</p>
+                                <div className="cart-item-left">
+                                    <div className="cart-item-image-container">
+                                        <img src={item.img} alt={item.name} className="cart-item-image" />
+                                    </div>
+                                    <h3 className="cart-item-name">{item.name}</h3>
                                 </div>
                                 <div className="cart-item-total">
-                                    <p>Total: ${item.quantity * item.price}</p>
+                                    <p>${item.quantity * item.price}</p>
+                                    <input
+                                        type="number"
+                                        value={item.quantity}
+                                        onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value))}
+                                        min="1"
+                                    />
+                                    <button onClick={() => handleRemoveItem(item.id)}>✖</button>
                                 </div>
                             </li>
                         ))}
                     </ul>
                     <div className="cart-summary">
-                        <p>Total Items: {totalQuantity}</p>
                         <p>Total Amount: ${totalAmount.toFixed(2)}</p>
-                        <button onClick={handleClearCart}>Clear Cart</button>
+                        <div className='cart__inputs'>
+                            <label>Street</label>
+                            <input
+                                type='street'
+                            />
+                        </div>
+                        <div className='cart__inputs'>
+                            <label>House</label>
+                            <input
+                                type='number'
+
+                            />
+                        </div>
+                        <div className="cart__summary--buttons">
+                        <button className="cart__summary--clear" onClick={handleClearCart}>Clear Cart</button>
+                        <button >Order</button>
+                        </div>
                     </div>
                 </div>
             )}
