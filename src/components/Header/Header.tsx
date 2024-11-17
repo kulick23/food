@@ -29,7 +29,6 @@ const Header: React.FC = () => {
                     >
                         Menu
                     </NavLink>
-                    <a href='*' className='header__link'>Company</a>
                     <NavLink
                         to="/login"
                         className={({ isActive }) => isActive ? 'header__link header__link--active' : 'header__link'}
